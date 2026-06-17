@@ -1,0 +1,27 @@
+## Target directories
+###
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio Temporary Files and Outputs
+###
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## OS-generated files
+###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Rider or other IDEs (if used)
+###
+.idea/
+
+## Backup and recovery files
+###
+*.bak
+*.tmp
