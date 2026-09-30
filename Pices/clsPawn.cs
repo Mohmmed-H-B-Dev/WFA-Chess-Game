@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace WFA_Chess_Game
         public bool isCapturingMoveDiagonal = false;
 
         
-        public override bool IsVerticalPathBlocked(CustomCTRL_PictureBox New_pos, CustomCTRL_PictureBox[,] _PictureBoxGrid)
+        public  bool IsVerticalPathBlocked(CustomCTRL_PictureBox New_pos, CustomCTRL_PictureBox[,] _PictureBoxGrid)
         {
             bool result = (New_pos.IdRow!=_Current_Pos.row&&New_pos.IdCol ==_Current_Pos.col);
 
@@ -61,33 +62,7 @@ namespace WFA_Chess_Game
 
         }
 
-        private bool _CheckIsDiagonalOneStep(Position New_pos, ref CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            bool StepFront=New_pos.row==_Current_Pos.row-1;
-            bool Stepbhined = New_pos.row==_Current_Pos.row+1;
-            int ColToMove = 0;
-
-            if (New_pos.col==_Current_Pos.col+1)
-            {
-                ColToMove=New_pos.col;
-            }
-            else if (New_pos.col==_Current_Pos.col-1)
-            {
-                ColToMove=New_pos.col;
-            }
-
-            if ((StepFront||Stepbhined)&&New_pos.col!=_Current_Pos.col)
-            {
-                if(Stepbhined)
-                {
-                  //  _PictureBoxGrid[]
-                }
-
-            }
-
-            return false;
-        }
-        public bool IsLimetedCapturing_Move(Position New_pos,  CustomCTRL_PictureBox[,] _PictureBoxGrid)
+         public bool IsLimetedCapturing_Move(Position New_pos,  CustomCTRL_PictureBox[,] _PictureBoxGrid)
         {
           
                 RowToMove=New_pos.row;
@@ -143,6 +118,7 @@ namespace WFA_Chess_Game
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
                 _TempPictureBox._Pawn=new clsPawn(this.GetPosition().row, this.GetPosition().col);
                 _TempPictureBox.PawnIsFirstTimeMoving=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PawnIsFirstTimeMoving;
+                _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
 
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
@@ -150,10 +126,14 @@ namespace WFA_Chess_Game
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Pawn=new clsPawn(New_pos.IdRow, New_pos.IdCol);
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PawnIsFirstTimeMoving=_TempPictureBox.PawnIsFirstTimeMoving;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Pawn.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col]._Pawn.CurrentCTRL;
+                _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
+
+
 
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+                _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
 
                 this.SetPosition(New_pos.IdRow, New_pos.IdCol);
@@ -187,6 +167,8 @@ namespace WFA_Chess_Game
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
                 _TempPictureBox._Pawn=new clsPawn(this.GetPosition().row, this.GetPosition().col);
                 _TempPictureBox.PawnIsFirstTimeMoving=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PawnIsFirstTimeMoving;
+                _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
+
 
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
@@ -194,10 +176,13 @@ namespace WFA_Chess_Game
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Pawn=new clsPawn(New_pos.IdRow, New_pos.IdCol);
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PawnIsFirstTimeMoving=_TempPictureBox.PawnIsFirstTimeMoving;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Pawn.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col]._Pawn.CurrentCTRL;
+                _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
+
 
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+                _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
 
                 this.SetPosition(New_pos.IdRow, New_pos.IdCol);

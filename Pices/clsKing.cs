@@ -81,12 +81,7 @@ namespace WFA_Chess_Game
 
             if (_MoveOneStep(New_pos))
             {
-                //if (_PictureBoxGrid[New_pos.col, New_pos.row].GetCheesPieceType!=_PictureBoxGrid[this.GetPosition().col, this.GetPosition().row].GetCheesPieceType &&
-                //     _PictureBoxGrid[New_pos.col, New_pos.row].GetCheesPieceName!=CustomCTRL_PictureBox.enCheesPieces.Empty)
-                //{
-                //    return ProcessAvailableCaptures(ref _PictureBoxGrid[this.GetPosition().col, this.GetPosition().row], ref _PictureBoxGrid[New_pos.col, New_pos.row]);
-                //    //   Execute Function Prosses Available Captures
-                //}
+             
 
 
 
@@ -96,13 +91,15 @@ namespace WFA_Chess_Game
                 _TempPictureBox.SetCheesPieceName=(int)_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceName;
                 _TempPictureBox.BackgroundImage=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage;
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
+                _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
                 _TempPictureBox._King=new clsKing(this.GetPosition().row, this.GetPosition().col);
 
 
-                /      المشكلة انه لما احرك الملك و اخليه في مكان فيه قطعة من نفس اللون و اضغط على القطعة اللي جنبها عشان اخدها الملك يروح مكانها و يختفي و ما يرجعش تاني
-                / ايضا لما احرك اي قطعة اللون حق القطعة مايتغير يعني لما اغير القطعة الى مكان ثاني في الرقعة لازم
-                اغير اللون حق القطعة في المكان الثاني واخلي اللون حق المكان الاو اللي كان للقعة الاةه فاضي يعني اسوي تبديل
+                //    /      المشكلة انه لما احرك الملك و اخليه في مكان فيه قطعة من نفس اللون و اضغط على القطعة اللي جنبها عشان اخدها الملك يروح مكانها و يختفي و ما يرجعش تاني
+                //   / ايضا لما احرك اي قطعة اللون حق القطعة مايتغير يعني لما اغير القطعة الى مكان ثاني في الرقعة لازم
+                //    اغير اللون حق القطعة في المكان الثاني واخلي اللون حق المكان الاو اللي كان للقعة الاةه فاضي يعني اسوي تبديل
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
+                _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceType=_TempPictureBox.GetCheesPieceType;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._King=new clsKing(New_pos.IdRow, New_pos.IdCol);
@@ -111,6 +108,7 @@ namespace WFA_Chess_Game
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+                _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
 
                 this.SetPosition(New_pos.IdRow, New_pos.IdCol);
@@ -121,670 +119,29 @@ namespace WFA_Chess_Game
 
         }
 
-        private bool _IsVerticalKnightAroundMe(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
+    
 
-            if (_IsNumberBetweenBoard(Current_Pos.row+2)&&_IsNumberBetweenBoard(Current_Pos.col+1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row+2, Current_Pos.col+1].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row+2, Current_Pos.col+1]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(Current_Pos.row+2)&&_IsNumberBetweenBoard(Current_Pos.col-1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row+2, Current_Pos.col-1].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row+2, Current_Pos.col-1]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
 
+ 
 
 
-            if (_IsNumberBetweenBoard(Current_Pos.row-2)&&_IsNumberBetweenBoard(Current_Pos.col-1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row-2, Current_Pos.col-1].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row-2, Current_Pos.col-1]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(Current_Pos.row-2)&&_IsNumberBetweenBoard(Current_Pos.col+1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row-2, Current_Pos.col+1].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row-2, Current_Pos.col+1]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-
-
-
-
-
-
-
-
-            return false;
-        }
-
-        private bool _IsHorizontalKnightAroundMe(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-
-
-
-
-            if (_IsNumberBetweenBoard(Current_Pos.col+2)&&_IsNumberBetweenBoard(Current_Pos.row+1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row+1, Current_Pos.col+2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row+1, Current_Pos.col+2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(Current_Pos.col+2)&&_IsNumberBetweenBoard(Current_Pos.row-1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row-1, Current_Pos.col+2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row-1, Current_Pos.col+2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-
-            if (_IsNumberBetweenBoard(Current_Pos.col-2)&&_IsNumberBetweenBoard(Current_Pos.row+1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row + 1, Current_Pos.col-2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row + 1, Current_Pos.col-2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(Current_Pos.col-2)&&_IsNumberBetweenBoard(Current_Pos.row-1))
-            {
-                if (_PictureBoxGrid[Current_Pos.row -1, Current_Pos.col-2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[Current_Pos.row - 1, Current_Pos.col-2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-
-
-        public static CustomCTRL_PictureBox GetKingPoistion(CustomCTRL_PictureBox[,] _PictureBoxGrid, CustomCTRL_PictureBox.enCheesPiecesType type)
-        {
-            foreach (CustomCTRL_PictureBox ccpb in _PictureBoxGrid)
-            {
-                if (ccpb.GetCheesPieceType==type&&ccpb.GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.King)
-                {
-                    return ccpb;
-                }
-
-            }
-            return null;
-        }
-
-        private bool _CheckDown(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-           
-            if (_Current_Pos.row>=0)
-            {
-                for (int i = _Current_Pos.row; i>=0; i++)
-                {
-                    if (i>7||i<0) return false;
-                    if (_PictureBoxGrid[i, _Current_Pos.col].CheckIsPiece()&&!_PictureBoxGrid[i, _Current_Pos.col].IsKing())
-                    {
-
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[i, _Current_Pos.col])))
-                        {
-                            if (_PictureBoxGrid[i, _Current_Pos.col].IsRook()||_PictureBoxGrid[i, _Current_Pos.col].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    }
-                }
-            }
-
-
-
-            return false;
-        }
-        private bool _CheckUp(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-
-            if (_Current_Pos.row<=7)
-            {
-                for (int i = _Current_Pos.row; i<=7; i--)
-                {
-                    if (i>7||i<0) return false;
-                    if (_PictureBoxGrid[i, _Current_Pos.col].CheckIsPiece()&&!_PictureBoxGrid[i, _Current_Pos.col].IsKing())
-                    {
-
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[i, _Current_Pos.col])))
-                        {
-                            if (_PictureBoxGrid[i, _Current_Pos.col].IsRook()||_PictureBoxGrid[i, _Current_Pos.col].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    }
-                }
-            }
-
-
-
-            return false;
-        }
-        private bool _CheckRight(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            if (_Current_Pos.col>=0)
-            {
-                for (int i = _Current_Pos.col; i>=0; i++)
-                {
-                    if (i>7||i<0) return false;
-                    if (_PictureBoxGrid[_Current_Pos.row, i].CheckIsPiece()&&!_PictureBoxGrid[i, _Current_Pos.col].IsKing())
-                    {
-
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[_Current_Pos.row, i])))
-                        {
-                            if (_PictureBoxGrid[_Current_Pos.row, i].IsRook()||_PictureBoxGrid[_Current_Pos.row, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    }
-                }
-            }
-            return false;
-        }
-        private bool _CheckLeft(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            if (_Current_Pos.col<=7)
-            {
-                for (int i = _Current_Pos.col; i<=7; i--)
-                {
-                    if (i>7||i<0) return false;
-                    if (_PictureBoxGrid[_Current_Pos.row, i].CheckIsPiece()&&!_PictureBoxGrid[i, _Current_Pos.col].IsKing())
-                    {
-
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[_Current_Pos.row, i])))
-                        {
-                            if (_PictureBoxGrid[_Current_Pos.row, i].IsRook()||_PictureBoxGrid[_Current_Pos.row, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                    }
-                }
-            }
-            return false;
-        }
-        private bool _IsVerticalKingInCheck(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            return (_CheckUp(_PictureBoxGrid)||_CheckDown(_PictureBoxGrid));
-        }
-        private bool _IsHorizontalKingInCheck(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            return (_CheckLeft(_PictureBoxGrid)||_CheckRight(_PictureBoxGrid));
-        }
-
-        private bool _CheckDiagonal_LiftUp(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            /*We take  all the corenr of Box grid 
-             * first row :0 , col :0 &  row :0 , col :7
-             *  Second row :7 && col :0 & row :7 && col :7
-
-             */
-            int TempRow = _Current_Pos.row;
-
-            if (_Current_Pos.col<=7)
-            {
-
-                for (int i = _Current_Pos.col; i<=7; i--)
-                {
-                    if (TempRow>7||TempRow<0) return false;
-                    if (i>7||i<0) return false;
-
-                    if (_PictureBoxGrid[TempRow, i].CheckIsPiece()&&!_PictureBoxGrid[TempRow, _Current_Pos.col].IsKing())
-                    {
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[TempRow, i])))
-                        {
-                            if (_PictureBoxGrid[TempRow, i].IsRook()||_PictureBoxGrid[TempRow, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    TempRow-=1;
-
-                }
-            }
-            return false;
-        }
-        private bool _CheckDiagonal_RightUp(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            /*We take  all the corenr of Box grid 
-             * first row :0 , col :0 &  row :0 , col :7
-             *  Second row :7 && col :0 & row :7 && col :7
-
-             */
-            int TempRow = _Current_Pos.row;
-
-            if (_Current_Pos.col<=7)
-            {
-
-                for (int i = _Current_Pos.col; i<=7; i++)
-                {
-                    if (TempRow>7||TempRow<0) return false;
-                    if (i>7||i<0) return false;
-
-                    if (_PictureBoxGrid[TempRow, i].CheckIsPiece()&&!_PictureBoxGrid[TempRow, _Current_Pos.col].IsKing())
-                    {
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[TempRow, i])))
-                        {
-                            if (_PictureBoxGrid[TempRow, i].IsRook()||_PictureBoxGrid[TempRow, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    TempRow+=1;
-
-                }
-            }
-            return false;
-        }
-
-        private bool _CheckDiagonal_RightDown(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            /*We take  all the corenr of Box grid 
-             * first row :0 , col :0 &  row :0 , col :7
-             *  Second row :7 && col :0 & row :7 && col :7
-
-             */
-            int TempRow = _Current_Pos.row;
-
-            if (_Current_Pos.col<=7)
-            {
-
-                for (int i = _Current_Pos.col; i<=7; i++)
-                {
-                    if (TempRow>7||TempRow<0) return false;
-                    if (i>7||i<0) return false;
-
-                    if (_PictureBoxGrid[TempRow, i].CheckIsPiece()&&!_PictureBoxGrid[TempRow, _Current_Pos.col].IsKing())
-                    {
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[TempRow, i])))
-                        {
-                            if (_PictureBoxGrid[TempRow, i].IsRook()||_PictureBoxGrid[TempRow, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    TempRow-=1;
-
-                }
-            }
-            return false;
-        }
-
-        private bool _CheckDiagonal_LiftDown(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-            /*We take  all the corenr of Box grid 
-             * first row :0 , col :0 &  row :0 , col :7
-             *  Second row :7 && col :0 & row :7 && col :7
-
-             */
-            int TempRow = _Current_Pos.row;
-
-            if (_Current_Pos.col<=7)
-            {
-
-                for (int i = _Current_Pos.col; i<=7; i--)
-                {
-                    if (TempRow>7||TempRow<0) return false;
-                    if (i>7||i<0) return false;
-
-                    if (_PictureBoxGrid[TempRow, i].CheckIsPiece()&&!_PictureBoxGrid[TempRow, _Current_Pos.col].IsKing())
-                    {
-                        if (!(_IsTypeColorSame(_PictureBoxGrid[TempRow, i])))
-                        {
-                            if (_PictureBoxGrid[TempRow, i].IsRook()||_PictureBoxGrid[TempRow, i].IsQueen())
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    TempRow+=1;
-
-                }
-            }
-            return false;
-        }
-        private bool _IsDiagonalKingInCheck(CustomCTRL_PictureBox[,] _P)
-        {
-            return (_CheckDiagonal_LiftUp(_P)||_CheckDiagonal_RightUp(_P)||_CheckDiagonal_RightDown(_P)||_CheckDiagonal_LiftDown(_P));
-        }
-
-        public  bool IsKingInCheck(CustomCTRL_PictureBox[,] _P)
-        {
-            
-            return (_IsVerticalKingInCheck(_P)||_IsHorizontalKingInCheck(_P)||_IsDiagonalKingInCheck(_P)||_IsHorizontalKnightAroundMe(_P)||_IsVerticalKnightAroundMe(_P));
-        }
-
-        public bool IsPiecesAroundMe(CustomCTRL_PictureBox[,] _PictureBoxGrid)
-        {
-
-
-
-
-            if (_IsNumberBetweenBoard(_Current_Pos.col+1)&&_IsNumberBetweenBoard(_Current_Pos.row+1))
-            {
-                if (_PictureBoxGrid[_Current_Pos.row+1, _Current_Pos.col+2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[_Current_Pos.row+1, _Current_Pos.col+2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(_Current_Pos.col+2)&&_IsNumberBetweenBoard(_Current_Pos.row-1))
-            {
-                if (_PictureBoxGrid[_Current_Pos.row-1, _Current_Pos.col+2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[_Current_Pos.row-1, _Current_Pos.col+2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-
-            if (_IsNumberBetweenBoard(_Current_Pos.col-2)&&_IsNumberBetweenBoard(_Current_Pos.row+1))
-            {
-                if (_PictureBoxGrid[_Current_Pos.row + 1, _Current_Pos.col-2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[_Current_Pos.row + 1, _Current_Pos.col-2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-            else if (_IsNumberBetweenBoard(_Current_Pos.col-2)&&_IsNumberBetweenBoard(_Current_Pos.row-1))
-            {
-                if (_PictureBoxGrid[_Current_Pos.row -1, _Current_Pos.col-2].GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Knight)
-                {
-                    if (_IsNotTypeColorSame(_PictureBoxGrid[_Current_Pos.row - 1, _Current_Pos.col-2]))
-                    {
-                        //return IsKindInCheck
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private bool _CheckDirection(CustomCTRL_PictureBox[,] grid, int rowOffset, int colOffset)
-        {
-            int r = _Current_Pos.row + rowOffset;
-            int c = _Current_Pos.col + colOffset;
-
-            while (r >= 0 && r <= 7 && c >= 0 && c <= 7)
-            {
-                var tile = grid[r, c];
-                if (tile.CheckIsPiece() && !tile.IsKing())
-                {
-                    if (!_IsTypeColorSame(tile))
-                    {
-                        return tile.IsRook() || tile.IsQueen();
-                    }
-                    return false; // جدار حماية
-                }
-
-                r += rowOffset;
-                c += colOffset;
-            }
-
-            return false;
-        }
-
-        // وبالتالي تصبح دالات الاستدعاء بسيطة جداً:
-     //   private bool _CheckUp(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, -1, 0);
-     //   private bool _CheckDown(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 1, 0);
-    //    private bool _CheckLeft(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 0, -1);
-    //    private bool _CheckRight(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 0, 1);
-
-
-
-
-
-
-
-
-
-
-
-
-        public static bool IsSquareUnderAttack(CustomCTRL_PictureBox[,] grid, Position targetPos, bool isWhiteKing)
-        {
-            // 1. الاتجاهات المستقيمة (رخ / ملكة)
-            int[,] straightDirections = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-            if (_CheckSlidingAttack(grid, targetPos, straightDirections, isRookOrQueen: true, isWhiteKing))
-                return true;
-
-            // 2. الاتجاهات المائلة (فيل / ملكة)
-            int[,] diagonalDirections = { { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
-            if (_CheckSlidingAttack(grid, targetPos, diagonalDirections, isRookOrQueen: false, isWhiteKing))
-                return true;
-
-            // 3. هجوم الحصان (8 إزاحات)
-            int[,] knightMoves = { { -2, -1 }, { -2, 1 }, { -1, -2 }, { -1, 2 }, { 1, -2 }, { 1, 2 }, { 2, -1 }, { 2, 1 } };
-            if (_CheckLeaperAttack(grid, targetPos, knightMoves, tile => tile.IsKnight(), isWhiteKing))
-                return true;
-
-            // 4. هجوم البيدق (متوافق 100% مع صفوف رقعتك: 0 بالأعلى و 7 بالأسفل)
-            int pawnRowDir = isWhiteKing ? -1 : 1;
-            int[,] pawnAttacks = { { pawnRowDir, -1 }, { pawnRowDir, 1 } };
-            if (_CheckLeaperAttack(grid, targetPos, pawnAttacks, tile => tile.IsPawn(), isWhiteKing))
-                return true;
-
-            // 5. هجوم ملك الخصم
-            int[,] kingMoves = { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 0, 1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
-            if (_CheckLeaperAttack(grid, targetPos, kingMoves, tile => tile.IsKing(), isWhiteKing))
-                return true;
-
-            return false; // المربع آمن
-        }
-
-        // دالة فحص القطع ذات المدى الطويل
-        private static bool _CheckSlidingAttack(CustomCTRL_PictureBox[,] grid, Position start, int[,] directions, bool isRookOrQueen, bool isWhiteTarget)
-        {
-            int dirCount = directions.GetLength(0);
-
-            for (int d = 0; d < dirCount; d++)
-            {
-                int r = start.row + directions[d, 0];
-                int c = start.col + directions[d, 1];
-
-                while (r >= 0 && r <= 7 && c >= 0 && c <= 7)
-                {
-                    var tile = grid[r, c];
-
-                    if (tile.CheckIsPiece())
-                    {
-                        // المقارنة المباشرة: هل لون القطعة التي وجدناها يختلف عن لون الهدف المراد حمايته؟
-                        bool isEnemy = (isWhiteTarget && tile.PieceColor == Color.Brown) ||
-                                       (!isWhiteTarget && tile.PieceColor == Color.White);
-
-                        if (isEnemy)
-                        {
-                            bool isThreat = isRookOrQueen
-                                ? (tile.IsRook() || tile.IsQueen())
-                                : (tile.IsBishop() || tile.IsQueen());
-
-                            if (isThreat) return true;
-                        }
-
-                        // الاصطدام بأي قطعة (سواء صديقة أو خصم لا يهدد) يقطع المسار
-                        break;
-                    }
-
-                    r += directions[d, 0];
-                    c += directions[d, 1];
-                }
-            }
-            return false;
-        }
-
-        // دالة فحص القطع التي تقفز لمربعات محددة
-        private static bool _CheckLeaperAttack(CustomCTRL_PictureBox[,] grid, Position start, int[,] moves, Predicate<CustomCTRL_PictureBox> isTargetPiece, bool isWhiteTarget)
-        {
-            int moveCount = moves.GetLength(0);
-
-            for (int i = 0; i < moveCount; i++)
-            {
-                int r = start.row + moves[i, 0];
-                int c = start.col + moves[i, 1];
-
-                if (r >= 0 && r <= 7 && c >= 0 && c <= 7)
-                {
-                    var tile = grid[r, c];
-
-                    bool isEnemy = (isWhiteTarget && tile.PieceColor == Color.Brown) ||
-                                   (!isWhiteTarget && tile.PieceColor == Color.White);
-
-                    if (tile.CheckIsPiece() && isEnemy && isTargetPiece(tile))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
-
-        // دالة تفحص هل الملك الحالي محاصر بالكش أم لا
+        // <summary>
+        /// Checks if the current player's king is in check.
+        /// </summary>
         public static bool IsCurrentKingInCheck(CustomCTRL_PictureBox[,] _PictureBoxGrid, bool isWhiteTurn)
         {
-            // 1. البحث عن موقع الملك الحالي على الرقعة
+
             Position kingPos = _FindKingPosition(_PictureBoxGrid, isWhiteTurn);
 
-            // 2. استدعاء دالة الفحص
             return IsSquareUnderAttack(_PictureBoxGrid, kingPos, isWhiteTurn);
         }
-
-        // دالة مساعدة لإيجاد موقع الملك على الرقعة
+        // <summary>
+        /// Finds the position of the king on the board.
+        /// </summary>
         private static Position  _FindKingPosition(CustomCTRL_PictureBox[,] _PictureBoxGrid, bool isWhite)
         {
             Color kingColor = isWhite ? Color.White : Color.Brown;
-
+            //here we iterate through the board to find the king's position 
             for (int r = 0; r < 8; r++)
             {
                
@@ -794,11 +151,11 @@ namespace WFA_Chess_Game
                     var tile = _PictureBoxGrid[r, c];
                     if (tile.CheckIsPiece() && tile.IsKing() && tile.PieceColor == kingColor)
                     {
-                        return new Position(r, c); // إرجاع موقع الملك
+                        return new Position(r, c); 
                     }
                 }
             }
-            return new Position(0, 0); // كاحتياطي فقط
+            return new Position(0, 0); 
         }
     }
 }

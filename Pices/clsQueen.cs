@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WFA_Chess_Game
 {
-    public class clsQueen:ChessGame
+    public class clsQueen : ChessGame
     {
         Position _Current_Pos;
         public clsQueen(int row, int col)
@@ -18,10 +19,8 @@ namespace WFA_Chess_Game
         }
         public CustomCTRL_PictureBox T = null;
         CustomCTRL_PictureBox _TempPictureBox = null;
-        public bool isHorizontalMove { set; get; }
-        public bool isVerticalMove { set; get; }
-        public bool isDiagonalMove { set; get; }
-     
+        public bool isMoveLegal { set; get; }
+
 
         public Position GetPosition() { return _Current_Pos; }
         public void SetPosition(int row, int col) { _Current_Pos.row=row; _Current_Pos.col=col; }
@@ -73,7 +72,7 @@ namespace WFA_Chess_Game
                 return false;
             }
 
-            if (!(isVerticalMove&&isHorizontalMove&&isDiagonalMove))
+            if (!isMoveLegal)
             {
 
                 if (this.T!=null&&this.IsAvailableCaptures(New_pos))
@@ -85,14 +84,9 @@ namespace WFA_Chess_Game
 
             }
 
-            if ((isVerticalMove||isHorizontalMove||isDiagonalMove))
+            if (isMoveLegal)
             {
-                //if (_PictureBoxGrid[New_pos.row, New_pos.col].GetCheesPieceType!=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType &&
-                //     _PictureBoxGrid[New_pos.row, New_pos.col].GetCheesPieceName!=CustomCTRL_PictureBox.enCheesPieces.Empty)
-                //{
-                //    return ProcessAvailableCaptures(ref _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col], ref _PictureBoxGrid[New_pos.row, New_pos.col]);
-                //    //   Execute Function Prosses Available Captures
-                //}
+
 
 
 
@@ -103,16 +97,20 @@ namespace WFA_Chess_Game
                 _TempPictureBox.BackgroundImage=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage;
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
                 _TempPictureBox._Queen=new clsQueen(this.GetPosition().row, this.GetPosition().col);
+                _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
 
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceType=_TempPictureBox.GetCheesPieceType;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Queen=new clsQueen(New_pos.IdRow, New_pos.IdCol);
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Queen.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col];
+                _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
+
 
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+                _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
                 this.SetPosition(New_pos.IdRow, New_pos.IdCol);
                 return true;
@@ -122,78 +120,6 @@ namespace WFA_Chess_Game
         }
 
 
-        public bool IsHorizontalPathBlacked(CustomCTRL_PictureBox New_pos, CustomCTRL_PictureBox[,] _PictureBoxGrid, ref CustomCTRL_PictureBox T)
-        {
-            bool result = (New_pos.IdRow==_Current_Pos.row&&New_pos.IdCol !=_Current_Pos.col);
-
-            if (!result)
-                return result;
-
-
-            if (_Current_Pos.col>New_pos.IdCol)
-            {
-                for (int i = _Current_Pos.col-1; i>=New_pos.IdCol; i--)
-                {
-                    if (_PictureBoxGrid[_Current_Pos.row, i].CheckIsPiece())
-                    {
-                        T=_PictureBoxGrid[_Current_Pos.row, i];
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = _Current_Pos.col+1; i<=New_pos.IdCol; i++)
-                {
-                    if (_PictureBoxGrid[_Current_Pos.row, i].CheckIsPiece())
-                    {
-                        T=_PictureBoxGrid[_Current_Pos.row, i];
-                        return false;
-                    }
-                }
-            }
-
-
-            return result;
-
-        }
-
-        public virtual bool IsVerticalPathBlocked(CustomCTRL_PictureBox New_pos, CustomCTRL_PictureBox[,] _PictureBoxGrid, ref CustomCTRL_PictureBox T)
-        {
-
-            bool result = (New_pos.IdCol==_Current_Pos.col&&New_pos.IdRow!=_Current_Pos.row);
-
-            if (!result)
-                return result;
-
-
-            if (_Current_Pos.row>New_pos.IdRow)
-            {
-                for (int i = _Current_Pos.row-1; i>=New_pos.IdRow; i--)
-                {
-                    if (_PictureBoxGrid[i, _Current_Pos.col].CheckIsPiece())
-                    {
-                        T=_PictureBoxGrid[i, _Current_Pos.col];
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = _Current_Pos.row+1; i<=New_pos.IdRow; i++)
-                {
-                    if (_PictureBoxGrid[i, _Current_Pos.col].CheckIsPiece())
-                    {
-                        T=_PictureBoxGrid[i, _Current_Pos.col];
-                        return false;
-                    }
-                }
-
-            }
-
-
-            return result;
-        }
 
     }
 }

@@ -63,16 +63,21 @@ namespace WFA_Chess_Game
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
                 _TempPictureBox._Knight = new clsKnight(this.GetPosition().row, this.GetPosition().col);
                 _TempPictureBox._Knight.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col];
+                _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
+
 
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceType=_TempPictureBox.GetCheesPieceType;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Knight = new clsKnight(New_pos.IdRow, New_pos.IdCol);
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Knight.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col];
+                _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
+
 
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
                 _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+                _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
                 this.SetPosition(New_pos.IdRow, New_pos.IdCol);
                 return true;
@@ -88,17 +93,20 @@ namespace WFA_Chess_Game
             _TempPictureBox.BackgroundImage=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage;
             _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
             _TempPictureBox._Knight=new clsKnight(this.GetPosition().row, this.GetPosition().col);
+            _TempPictureBox.PieceColor=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor;
 
             _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
             _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
             _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceType=_TempPictureBox.GetCheesPieceType;
             _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Knight=new clsKnight(New_pos.IdRow, New_pos.IdCol);
             _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol]._Knight.CurrentCTRL=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col];
+            _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].PieceColor=_TempPictureBox.PieceColor;
 
 
             _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceName=(int)CustomCTRL_PictureBox.enCheesPieces.Empty;
             _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].SetCheesPieceType=CustomCTRL_PictureBox.enCheesPiecesType.Empty;
             _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].BackgroundImage=null;
+            _PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].PieceColor=Color.Empty;
 
             this.SetPosition(New_pos.IdRow, New_pos.IdCol);
             return true;

@@ -187,17 +187,11 @@ namespace WFA_Chess_Game
 
                     break;
                 case CustomCTRL_PictureBox.enCheesPieces.Queen:
-                    _PreviousCTRl_Piece._Queen.isVerticalMove=_PreviousCTRl_Piece._Queen.IsVerticalPathBlocked(NewCTRlPosition, _PictureBoxGrid, ref _PreviousCTRl_Piece._Queen.T);
-                    if (!_PreviousCTRl_Piece._Queen.isVerticalMove)
-                    {
-                        _PreviousCTRl_Piece._Queen.isHorizontalMove=_PreviousCTRl_Piece._Queen.IsHorizontalPathBlacked(NewCTRlPosition, _PictureBoxGrid,
-                        ref _PreviousCTRl_Piece._Queen.T);
-                    }
-                    if (!_PreviousCTRl_Piece._Queen.isVerticalMove&&!_PreviousCTRl_Piece._Queen.isHorizontalMove)
-                    {
-                        _PreviousCTRl_Piece._Queen.isDiagonalMove=_PreviousCTRl_Piece._Queen.IsPathBlockedDiagonal(NewCTRlPosition, _PictureBoxGrid,
-                           ref _PreviousCTRl_Piece._Queen.T);
-                    }
+                
+                    
+                        _PreviousCTRl_Piece._Queen.isMoveLegal=_PreviousCTRl_Piece._Queen.IsPathClearBetween(_PictureBoxGrid,new Position(NewCTRlPosition.IdRow, NewCTRlPosition.IdCol),
+                           new Position( _PreviousCTRl_Piece.IdRow, _PreviousCTRl_Piece.IdCol));
+                    
 
 
 
@@ -222,12 +216,9 @@ namespace WFA_Chess_Game
                     break;
                 case CustomCTRL_PictureBox.enCheesPieces.Rook:
 
-                    _PreviousCTRl_Piece._Rook.isVerticalMove=_PreviousCTRl_Piece._Rook.IsVerticalPathBlocked(NewCTRlPosition, _PictureBoxGrid, ref _PreviousCTRl_Piece._Rook.T);
-                    if (!_PreviousCTRl_Piece._Rook.isVerticalMove)
-                        _PreviousCTRl_Piece._Rook.isHorizontalMove=_PreviousCTRl_Piece._Rook.IsHorizontalPathBlacked(NewCTRlPosition, _PictureBoxGrid,
-
-                            ref _PreviousCTRl_Piece._Rook.T);
-
+                  
+                        _PreviousCTRl_Piece._Rook.isMoveLegal=_PreviousCTRl_Piece._Rook.IsPathClearBetween(_PictureBoxGrid,new Position(NewCTRlPosition.IdRow, NewCTRlPosition.IdCol),
+                           new Position( _PreviousCTRl_Piece.IdRow, _PreviousCTRl_Piece.IdCol));
 
                     if (_PreviousCTRl_Piece._Rook._IsValidMove(NewCTRlPosition, ref _PictureBoxGrid))
                     {
@@ -301,8 +292,8 @@ namespace WFA_Chess_Game
                     break;
                 case CustomCTRL_PictureBox.enCheesPieces.Bishop:
 
-                    _PreviousCTRl_Piece._Bishop.isDiagonalMove=_PreviousCTRl_Piece._Bishop.IsPathBlockedDiagonal(NewCTRlPosition, _PictureBoxGrid,
-                       ref _PreviousCTRl_Piece._Bishop.T);
+                    _PreviousCTRl_Piece._Bishop.isDiagonalMove=_PreviousCTRl_Piece._Bishop.IsPathClearBetween(_PictureBoxGrid,new Position(NewCTRlPosition.IdRow, NewCTRlPosition.IdCol),
+                        new Position( _PreviousCTRl_Piece.IdRow, _PreviousCTRl_Piece.IdCol));
 
 
 
