@@ -142,5 +142,6 @@ namespace WFA_Chess_Game
         {
             base.OnPaint(pe);
         }
+
     }
 }
