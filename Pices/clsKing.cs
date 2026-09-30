@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace WFA_Chess_Game
 {
@@ -623,8 +625,175 @@ namespace WFA_Chess_Game
             return false;
         }
 
-        
+        private bool _CheckDirection(CustomCTRL_PictureBox[,] grid, int rowOffset, int colOffset)
+        {
+            int r = _Current_Pos.row + rowOffset;
+            int c = _Current_Pos.col + colOffset;
 
+            while (r >= 0 && r <= 7 && c >= 0 && c <= 7)
+            {
+                var tile = grid[r, c];
+                if (tile.CheckIsPiece() && !tile.IsKing())
+                {
+                    if (!_IsTypeColorSame(tile))
+                    {
+                        return tile.IsRook() || tile.IsQueen();
+                    }
+                    return false; // جدار حماية
+                }
+
+                r += rowOffset;
+                c += colOffset;
+            }
+
+            return false;
+        }
+
+        // وبالتالي تصبح دالات الاستدعاء بسيطة جداً:
+     //   private bool _CheckUp(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, -1, 0);
+     //   private bool _CheckDown(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 1, 0);
+    //    private bool _CheckLeft(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 0, -1);
+    //    private bool _CheckRight(CustomCTRL_PictureBox[,] grid) => _CheckDirection(grid, 0, 1);
+
+
+
+
+
+
+
+
+
+
+
+
+        public static bool IsSquareUnderAttack(CustomCTRL_PictureBox[,] grid, Position targetPos, bool isWhiteKing)
+        {
+            // 1. الاتجاهات المستقيمة (رخ / ملكة)
+            int[,] straightDirections = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+            if (_CheckSlidingAttack(grid, targetPos, straightDirections, isRookOrQueen: true, isWhiteKing))
+                return true;
+
+            // 2. الاتجاهات المائلة (فيل / ملكة)
+            int[,] diagonalDirections = { { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+            if (_CheckSlidingAttack(grid, targetPos, diagonalDirections, isRookOrQueen: false, isWhiteKing))
+                return true;
+
+            // 3. هجوم الحصان (8 إزاحات)
+            int[,] knightMoves = { { -2, -1 }, { -2, 1 }, { -1, -2 }, { -1, 2 }, { 1, -2 }, { 1, 2 }, { 2, -1 }, { 2, 1 } };
+            if (_CheckLeaperAttack(grid, targetPos, knightMoves, tile => tile.IsKnight(), isWhiteKing))
+                return true;
+
+            // 4. هجوم البيدق (متوافق 100% مع صفوف رقعتك: 0 بالأعلى و 7 بالأسفل)
+            int pawnRowDir = isWhiteKing ? -1 : 1;
+            int[,] pawnAttacks = { { pawnRowDir, -1 }, { pawnRowDir, 1 } };
+            if (_CheckLeaperAttack(grid, targetPos, pawnAttacks, tile => tile.IsPawn(), isWhiteKing))
+                return true;
+
+            // 5. هجوم ملك الخصم
+            int[,] kingMoves = { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 0, 1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
+            if (_CheckLeaperAttack(grid, targetPos, kingMoves, tile => tile.IsKing(), isWhiteKing))
+                return true;
+
+            return false; // المربع آمن
+        }
+
+        // دالة فحص القطع ذات المدى الطويل
+        private static bool _CheckSlidingAttack(CustomCTRL_PictureBox[,] grid, Position start, int[,] directions, bool isRookOrQueen, bool isWhiteTarget)
+        {
+            int dirCount = directions.GetLength(0);
+
+            for (int d = 0; d < dirCount; d++)
+            {
+                int r = start.row + directions[d, 0];
+                int c = start.col + directions[d, 1];
+
+                while (r >= 0 && r <= 7 && c >= 0 && c <= 7)
+                {
+                    var tile = grid[r, c];
+
+                    if (tile.CheckIsPiece())
+                    {
+                        // المقارنة المباشرة: هل لون القطعة التي وجدناها يختلف عن لون الهدف المراد حمايته؟
+                        bool isEnemy = (isWhiteTarget && tile.PieceColor == Color.Brown) ||
+                                       (!isWhiteTarget && tile.PieceColor == Color.White);
+
+                        if (isEnemy)
+                        {
+                            bool isThreat = isRookOrQueen
+                                ? (tile.IsRook() || tile.IsQueen())
+                                : (tile.IsBishop() || tile.IsQueen());
+
+                            if (isThreat) return true;
+                        }
+
+                        // الاصطدام بأي قطعة (سواء صديقة أو خصم لا يهدد) يقطع المسار
+                        break;
+                    }
+
+                    r += directions[d, 0];
+                    c += directions[d, 1];
+                }
+            }
+            return false;
+        }
+
+        // دالة فحص القطع التي تقفز لمربعات محددة
+        private static bool _CheckLeaperAttack(CustomCTRL_PictureBox[,] grid, Position start, int[,] moves, Predicate<CustomCTRL_PictureBox> isTargetPiece, bool isWhiteTarget)
+        {
+            int moveCount = moves.GetLength(0);
+
+            for (int i = 0; i < moveCount; i++)
+            {
+                int r = start.row + moves[i, 0];
+                int c = start.col + moves[i, 1];
+
+                if (r >= 0 && r <= 7 && c >= 0 && c <= 7)
+                {
+                    var tile = grid[r, c];
+
+                    bool isEnemy = (isWhiteTarget && tile.PieceColor == Color.Brown) ||
+                                   (!isWhiteTarget && tile.PieceColor == Color.White);
+
+                    if (tile.CheckIsPiece() && isEnemy && isTargetPiece(tile))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
+
+        // دالة تفحص هل الملك الحالي محاصر بالكش أم لا
+        public static bool IsCurrentKingInCheck(CustomCTRL_PictureBox[,] _PictureBoxGrid, bool isWhiteTurn)
+        {
+            // 1. البحث عن موقع الملك الحالي على الرقعة
+            Position kingPos = _FindKingPosition(_PictureBoxGrid, isWhiteTurn);
+
+            // 2. استدعاء دالة الفحص
+            return IsSquareUnderAttack(_PictureBoxGrid, kingPos, isWhiteTurn);
+        }
+
+        // دالة مساعدة لإيجاد موقع الملك على الرقعة
+        private static Position  _FindKingPosition(CustomCTRL_PictureBox[,] _PictureBoxGrid, bool isWhite)
+        {
+            Color kingColor = isWhite ? Color.White : Color.Brown;
+
+            for (int r = 0; r < 8; r++)
+            {
+                for (int c = 0; c < 8; c++)
+                {
+                    var tile = _PictureBoxGrid[r, c];
+                    if (tile.CheckIsPiece() && tile.IsKing() && tile.PieceColor == kingColor)
+                    {
+                        return new Position(r, c); // إرجاع موقع الملك
+                    }
+                }
+            }
+            return new Position(0, 0); // كاحتياطي فقط
+        }
     }
 }
 

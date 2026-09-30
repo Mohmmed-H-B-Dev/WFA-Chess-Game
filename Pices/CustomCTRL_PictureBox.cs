@@ -80,6 +80,19 @@ namespace WFA_Chess_Game
         {
             return enCheesPieces.enIsChosen==enChees;
         }
+        public bool IsPawn()
+        {
+            return this.GetCheesPieceName==enCheesPieces.Pawn;
+        }
+        public bool IsKnight()
+        {
+            return this.GetCheesPieceName==enCheesPieces.Knight;
+        }
+        public bool IsBishop()
+        {
+            return this.GetCheesPieceName==enCheesPieces.Bishop;
+        }
+
         public bool IsRook()
         {
             return this.GetCheesPieceName==enCheesPieces.Rook;

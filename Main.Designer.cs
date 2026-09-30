@@ -111,7 +111,7 @@
             this.lstHistory.Size = new System.Drawing.Size(371, 327);
             this.lstHistory.TabIndex = 6;
             // 
-            // Form1
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -123,8 +123,8 @@
             this.Controls.Add(this.btnResetGame);
             this.Controls.Add(this.btnBlack);
             this.Controls.Add(this.btnWhite);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Main";
+            this.Text = "Chess Game";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
