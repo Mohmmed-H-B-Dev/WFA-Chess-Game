@@ -15,7 +15,7 @@ namespace WFA_Chess_Game
         bool IsFirstTimeMove = false;
         bool _HandelCreateChessBoardExecuted = false;
 
-        private bool _PlayerWhite_Win = false;
+        private bool _WinPlayer = false;
         private bool _PlayerBlack_Win = false;
         private bool _PlayerOneWhiteIsKingInCheck = false;
         private bool _PlayerOneBlackIsKingInCheck = false;
@@ -396,18 +396,13 @@ namespace WFA_Chess_Game
 
         private void CheesGame_EventHandler(object sender, CheesGameEventArgs e)
         {
-
+            string colorWin = _CurrentTurn==enCheesPiecesType.White ? "White" : "Black";
             if (_CurrentTurn==enCheesPiecesType.Empty)
                 return;
-            if (_PlayerWhite_Win)
+           
+            if (_WinPlayer)
             {
-                MessageBox.Show("Game Over (:- \nPlayer White is Win -:)...", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                return;
-            }
-            else if (_PlayerBlack_Win)
-            {
-                MessageBox.Show("Game Over (:- \nPlayer Black is Win -:)...", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Game Over (:- \nPlayer "+colorWin+" is Win -:)...", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 return;
             }
@@ -429,10 +424,9 @@ namespace WFA_Chess_Game
             _CurrentTurn =enCheesPiecesType.Empty;
             btnBlack.Enabled=true;
             btnWhite.Enabled=true;
-            _PlayerWhite_Win = false;
-            _PlayerBlack_Win = false;
-            _ResetChessBoard();
-            DrawChessBoard();
+           _WinPlayer = false;
+           _ResetChessBoard();
+           DrawChessBoard();
 
         }
 
@@ -448,13 +442,13 @@ namespace WFA_Chess_Game
                         MessageBox.Show("Player Black is Win -:)...", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         gbGrid.Enabled=false;
 
-                        _PlayerBlack_Win = true;
+                        _WinPlayer = true;
                     }
                     else if (_PreviousTurn==enCheesPiecesType.White)
                     {
                         MessageBox.Show("Player White is Win -:)...", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         gbGrid.Enabled=false;
-                        _PlayerWhite_Win = true;
+                        _WinPlayer = true;
                     }
                 }
                 _CapturingStatus = false;
