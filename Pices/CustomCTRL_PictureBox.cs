@@ -30,6 +30,7 @@ namespace WFA_Chess_Game
 
 
         }
+        public Color TileColor { set; get; }
         public  PbLocationClass pbLocationClass = new PbLocationClass();
         public bool IsKingInCheck { set; get; }
         public enum enCheesPieces {enIsChosen=0, Pawn = 1, Knight = 2, Bishop = 3, Rook = 4, Queen = 5, King = 6 , Empty =7};

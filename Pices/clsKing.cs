@@ -98,6 +98,10 @@ namespace WFA_Chess_Game
                 _TempPictureBox.SetCheesPieceType=_PictureBoxGrid[this.GetPosition().row, this.GetPosition().col].GetCheesPieceType;
                 _TempPictureBox._King=new clsKing(this.GetPosition().row, this.GetPosition().col);
 
+
+                /      المشكلة انه لما احرك الملك و اخليه في مكان فيه قطعة من نفس اللون و اضغط على القطعة اللي جنبها عشان اخدها الملك يروح مكانها و يختفي و ما يرجعش تاني
+                / ايضا لما احرك اي قطعة اللون حق القطعة مايتغير يعني لما اغير القطعة الى مكان ثاني في الرقعة لازم
+                اغير اللون حق القطعة في المكان الثاني واخلي اللون حق المكان الاو اللي كان للقعة الاةه فاضي يعني اسوي تبديل
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceName=(int)_TempPictureBox.GetCheesPieceName;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].BackgroundImage =_TempPictureBox.BackgroundImage;
                 _PictureBoxGrid[New_pos.IdRow, New_pos.IdCol].SetCheesPieceType=_TempPictureBox.GetCheesPieceType;
@@ -783,8 +787,10 @@ namespace WFA_Chess_Game
 
             for (int r = 0; r < 8; r++)
             {
+               
                 for (int c = 0; c < 8; c++)
                 {
+                    
                     var tile = _PictureBoxGrid[r, c];
                     if (tile.CheckIsPiece() && tile.IsKing() && tile.PieceColor == kingColor)
                     {

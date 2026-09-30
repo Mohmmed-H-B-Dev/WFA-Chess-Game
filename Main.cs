@@ -114,8 +114,8 @@ namespace WFA_Chess_Game
 
 
                 if (clsKing.IsCurrentKingInCheck(_PictureBoxGrid, true))
-                    return;
-                  //  MessageBox.Show("Your الابيض  king in Check ", "Error");
+                  //  return;
+                   MessageBox.Show("Your الابيض  king in Check ", "Error");
 
 
 
@@ -129,9 +129,9 @@ namespace WFA_Chess_Game
 
 
                 if (clsKing.IsCurrentKingInCheck(_PictureBoxGrid, false))
-                    return;
+                   // return;
 
-                    //MessageBox.Show("Your الاسود  king in Check ", "Error");
+                    MessageBox.Show("Your الاسود  king in Check ", "Error");
 
 
             }
@@ -488,38 +488,36 @@ namespace WFA_Chess_Game
 
         }
 
-        private void _Drawing_A_chess_interface(int row, int col, CustomCTRL_PictureBox NewPictureBox)
+         void Drawing_A_BlackPiece(int row, int col, CustomCTRL_PictureBox NewPictureBox)
         {
-            //Put piece rook black in her place
+ 
             _HandelAllPieceRooK(row, col, 0, NewPictureBox, Resources.chess_rook_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece rook white in her place
-            _HandelAllPieceRooK(row, col, 7, NewPictureBox, Resources.chess_rook_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
-            //Put piece Bishop black in her place
             _HandelAllPieceBishop(row, col, 0, NewPictureBox, Resources.chess_bishop_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece Bishop white in her place
-            _HandelAllPieceBishop(row, col, 7, NewPictureBox, Resources.chess_bishop_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
-            //Put piece Knight black in her place
-            _HandelAllPieceKnight(row, col, 0, NewPictureBox, Resources.chess_knight_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece Knight white in her place
-            _HandelAllPieceKnight(row, col, 7, NewPictureBox, Resources.chess_knight_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
-            //Put piece King black in her place
-          
-            
-            _HandelAllPieceKing(row, col, 0, NewPictureBox, Resources.chess_king_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece King white in her place
-          
-            _HandelAllPieceKing(row, col, 7, NewPictureBox, Resources.chess_king_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
-           
-            
-            //Put piece Queen black in her place
-            _HandelAllPieceQueen(row, col, 0, NewPictureBox, Resources.chess_queen_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece Queen white in her place
-            _HandelAllPieceQueen(row, col, 7, NewPictureBox, Resources.chess_queen_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
-            //Put piece Pawn Black in her place
             _HandelAllPiecePawn(row, col, 1, NewPictureBox, Resources.chess_pawn_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
-            //Put piece Pawn white in her place
+            _HandelAllPieceQueen(row, col, 0, NewPictureBox, Resources.chess_queen_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
+            _HandelAllPieceKing(row, col, 0, NewPictureBox, Resources.chess_king_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
+            _HandelAllPieceKnight(row, col, 0, NewPictureBox, Resources.chess_knight_black, CustomCTRL_PictureBox.enCheesPiecesType.Black);
+
+        }
+        void Drawing_A_WhitePiece(int row, int col, CustomCTRL_PictureBox NewPictureBox)
+        {
+            
+
+
+            _HandelAllPieceRooK(row, col, 7, NewPictureBox, Resources.chess_rook_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
+            _HandelAllPieceBishop(row, col, 7, NewPictureBox, Resources.chess_bishop_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
+            _HandelAllPieceKnight(row, col, 7, NewPictureBox, Resources.chess_knight_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
+            _HandelAllPieceKing(row, col, 7, NewPictureBox, Resources.chess_king_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
+            _HandelAllPieceQueen(row, col, 7, NewPictureBox, Resources.chess_queen_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
             _HandelAllPiecePawn(row, col, 6, NewPictureBox, Resources.chess_pawn_white, CustomCTRL_PictureBox.enCheesPiecesType.White);
 
+
+        }
+        private void _Drawing_A_chess_interface(int row, int col, CustomCTRL_PictureBox NewPictureBox)
+        {
+            Drawing_A_WhitePiece(row, col, NewPictureBox);
+            Drawing_A_BlackPiece(row, col, NewPictureBox);
+            //Put piece rook white in her place
             if (NewPictureBox.GetCheesPieceName==CustomCTRL_PictureBox.enCheesPieces.Empty)
             {
                 NewPictureBox._PieceEmpty=new clsPieceEmpty(row, col);
@@ -627,13 +625,13 @@ namespace WFA_Chess_Game
                         if (WhiteOrBlackR)
                         {
                             NewPictureBox.BackColor = Color.White;
-                            NewPictureBox.PieceColor=Color.White;
+                            NewPictureBox.TileColor = Color.White;
                             WhiteOrBlackR =false;
                         }
                         else
                         {
                             NewPictureBox.BackColor = Color.Brown;
-                            NewPictureBox.PieceColor=Color.Brown;
+                            NewPictureBox.TileColor = Color.Brown;
                             WhiteOrBlackR =true;
                         }
 
@@ -691,6 +689,14 @@ namespace WFA_Chess_Game
         {
             if (rowReal == rowFrom &&(col==0||col==7))
             {
+                if (Type==enCheesPiecesType.White)
+                {
+                    NewPictureBox.PieceColor=Color.White;
+                }
+                else if (Type==enCheesPiecesType.Black)
+                {
+                    NewPictureBox.PieceColor=Color.Brown;
+                }
                 NewPictureBox.SetCheesPieceName=(int)enCheesPieces.Rook;
                 NewPictureBox.BackgroundImage=image; ;
                 NewPictureBox.SetCheesPieceType=Type;
@@ -702,6 +708,14 @@ namespace WFA_Chess_Game
         {
             if (rowReal == rowFrom&&(col==2||col==5))
             {
+                if (Type==enCheesPiecesType.White)
+                {
+                    NewPictureBox.PieceColor=Color.White;
+                }
+                else if (Type==enCheesPiecesType.Black)
+                {
+                    NewPictureBox.PieceColor=Color.Brown;
+                }
                 NewPictureBox.SetCheesPieceName=(int)enCheesPieces.Bishop;
                 NewPictureBox.BackgroundImage=image;
                 NewPictureBox.SetCheesPieceType=Type;
@@ -713,6 +727,14 @@ namespace WFA_Chess_Game
         {
             if (rowReal == rowFrom&&(col==1||col==6))
             {
+                if (Type==enCheesPiecesType.White)
+                {
+                    NewPictureBox.PieceColor=Color.White;
+                }
+                else if (Type==enCheesPiecesType.Black)
+                {
+                    NewPictureBox.PieceColor=Color.Brown;
+                }
                 NewPictureBox.SetCheesPieceName=(int)enCheesPieces.Knight;
                 NewPictureBox.BackgroundImage=image;
                 NewPictureBox.SetCheesPieceType=Type;
@@ -724,12 +746,14 @@ namespace WFA_Chess_Game
 
         private void _HandelAllPieceKing(int rowReal, int col, int rowFrom, CustomCTRL_PictureBox NewPictureBox, System.Drawing.Image image, CustomCTRL_PictureBox.enCheesPiecesType Type)
         {
+
             if (rowReal == rowFrom&&((col==4&&Type==enCheesPiecesType.White)||(col==3&&Type==enCheesPiecesType.Black)))
             {
-                if( Type==enCheesPiecesType.White)
+                if (Type==enCheesPiecesType.White)
                 {
                     NewPictureBox.PieceColor=Color.White;
-                }else if(Type==enCheesPiecesType.Black)
+                }
+                else if (Type==enCheesPiecesType.Black)
                 {
                     NewPictureBox.PieceColor=Color.Brown;
                 }
@@ -746,7 +770,14 @@ namespace WFA_Chess_Game
         {
             if (rowReal == rowFrom&&((col==3&&Type==enCheesPiecesType.White)||(col==4&&Type==enCheesPiecesType.Black)))
             {
-
+                if (Type==enCheesPiecesType.White)
+                {
+                    NewPictureBox.PieceColor=Color.White;
+                }
+                else if (Type==enCheesPiecesType.Black)
+                {
+                    NewPictureBox.PieceColor=Color.Brown;
+                }
                 NewPictureBox.SetCheesPieceName=(int)enCheesPieces.Queen;
                 NewPictureBox.BackgroundImage=image;
                 NewPictureBox.SetCheesPieceType=Type;
@@ -762,6 +793,14 @@ namespace WFA_Chess_Game
         {
             if (rowReal == rowFrom&&(col>=0||col<=7))
             {
+                if (Type==enCheesPiecesType.White)
+                {
+                    NewPictureBox.PieceColor=Color.White;
+                }
+                else if (Type==enCheesPiecesType.Black)
+                {
+                    NewPictureBox.PieceColor=Color.Brown;
+                }
                 NewPictureBox.SetCheesPieceName=(int)enCheesPieces.Pawn;
                 NewPictureBox.BackgroundImage=image;
                 NewPictureBox.SetCheesPieceType=Type;
